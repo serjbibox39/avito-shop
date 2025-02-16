@@ -20,12 +20,7 @@ type config struct {
 }
 
 func main() {
-	/*hashedPassword, err := bcrypt.GenerateFromPassword([]byte("12345678"), bcrypt.DefaultCost)
-	if err != nil {
-		elog.Fatal(err)
-	}
-	ilog.Println(string(hashedPassword))*/
-	c, err := readConfig("./cfg/config.local.json")
+	c, err := readConfig("./cfg/config.json")
 	if err != nil {
 		elog.Fatal(err)
 	}

@@ -3,16 +3,12 @@ package handler
 import (
 	"errors"
 	"log"
-	"math/rand"
 	"os"
-	"time"
 
 	"avito-shop/pkg/storage"
 
 	"github.com/gin-gonic/gin"
 )
-
-type uuid string
 
 var elog = log.New(os.Stderr, "[Handler error]\t", log.Ldate|log.Ltime|log.Lshortfile)
 var ilog = log.New(os.Stdout, "[Handler info]\t", log.Ldate|log.Ltime)
@@ -20,7 +16,6 @@ var ilog = log.New(os.Stdout, "[Handler info]\t", log.Ldate|log.Ltime)
 // Обработчик HTTP запросов сервера
 type Handler struct {
 	storage *storage.Storage
-	rand    *rand.Rand
 }
 
 // Конструктор объекта Handler
@@ -28,10 +23,8 @@ func NewHandler(storage *storage.Storage) (*Handler, error) {
 	if storage == nil {
 		return nil, errors.New("storage is nil")
 	}
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	return &Handler{
 		storage: storage,
-		rand:    r,
 	}, nil
 }
 

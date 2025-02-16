@@ -1,7 +1,3 @@
-DROP TABLE IF EXISTS public.users CASCADE;
-DROP TABLE IF EXISTS public.transactions CASCADE;
-DROP TABLE IF EXISTS public.merch CASCADE;
-DROP TABLE IF EXISTS public.inventory CASCADE;
 -- Создание таблицы пользователей
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
