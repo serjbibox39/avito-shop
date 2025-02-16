@@ -20,6 +20,15 @@ type config struct {
 }
 
 func main() {
+	/*c, err := readConfig("./cfg/config.local.json")
+	if err != nil {
+		elog.Fatal(err)
+	}
+	connString, err := postgresql.GetConnectionString(c.PostgresConfig)*/
+
+	/*if err != nil {
+		elog.Fatal(err)
+	}*/
 	connString := postgresql.GetConnectionStringEnv()
 	db, err := postgresql.New(connString)
 	if err != nil {

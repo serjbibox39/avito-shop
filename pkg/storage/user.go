@@ -244,31 +244,19 @@ func txCoin(up *UserPostgres, t models.Transaction) error {
 		tx.Rollback(ctx)
 		return err
 	}
-	ilog.Println("провели транзакцию", t.FromUser, toUser, t.Amount, id)
 	return tx.Commit(ctx)
 }
 
 func buyMerch(up *UserPostgres, item models.BuyItem) error {
 	ctx := context.Background()
-	tx, err := up.db.Begin(ctx)
+	q := `UPDATE inventory 
+			SET coins = coins - $1, merch = array_append(merch,$2) 
+			WHERE userid = $3;`
+	_, err := up.db.Exec(ctx, q, storage.Merch[item.Item].Price, item.Item, item.UserID)
 	if err != nil {
 		return err
 	}
-	// Списание монет
-	q := `UPDATE inventory SET coins = coins - $1 WHERE userid = $2`
-	_, err = tx.Exec(ctx, q, storage.Merch[item.Item].Price, item.UserID)
-	if err != nil {
-		tx.Rollback(ctx)
-		return err
-	}
-	// Приход мерча
-	q = `UPDATE inventory SET merch = array_append(merch,$1) WHERE userid = $2`
-	_, err = tx.Query(ctx, q, item.Item, item.UserID)
-	if err != nil {
-		tx.Rollback(ctx)
-		return err
-	}
-	return tx.Commit(ctx)
+	return nil
 }
 
 func (up *UserPostgres) Delete(id uuid) error {
