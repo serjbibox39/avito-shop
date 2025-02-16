@@ -23,15 +23,13 @@ type PostgresConfig struct {
 }
 
 // Формирует строку подключения к PostgresSQL на основе ENV
-func GetConnectionStringEnv(c PostgresConfig) (string, error) {
+func GetConnectionStringEnv() string {
 	return "postgres://" +
-			os.Getenv("DATABASE_USER") + ":" +
-			os.Getenv("DATABASE_PASSWORD") + "@" +
-			os.Getenv("DATABASE_HOST") + ":" +
-			os.Getenv("DATABASE_PORT") + "/" +
-			os.Getenv("DATABASE_NAME") + "?sslmode=" +
-			c.SslMode,
-		nil
+		os.Getenv("DATABASE_USER") + ":" +
+		os.Getenv("DATABASE_PASSWORD") + "@" +
+		os.Getenv("DATABASE_HOST") + ":" +
+		os.Getenv("DATABASE_PORT") + "/" +
+		os.Getenv("DATABASE_NAME") + "?sslmode=disable"
 }
 
 // Формирует строку подключения к PostgresSQL на основе config.json
